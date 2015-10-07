@@ -37,10 +37,12 @@ class InitCommand extends Command
     public function __invoke($path, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('init');
+        $builder = $this->git->getProcessBuilder()->add('init');
 
-        $this->addFlags($builder, $options, array('shared', 'bare'));
+        $this->addFlags($builder, $options, array(
+            'shared',
+            'bare',
+        ));
 
         $process = $builder->add($path)->getProcess();
         $this->git->run($process);
@@ -56,8 +58,6 @@ class InitCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('shared', false)
-            ->setDefault('bare', false);
+        $resolver->setDefault('shared', false)->setDefault('bare', false);
     }
 }

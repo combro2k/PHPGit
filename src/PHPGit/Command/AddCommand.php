@@ -38,8 +38,7 @@ class AddCommand extends Command
     public function __invoke($file, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('add');
+        $builder = $this->git->getProcessBuilder()->add('add');
 
         $this->addFlags($builder, $options);
 
@@ -64,8 +63,6 @@ class AddCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('force', false)
-            ->setDefault('ignore-errors', false);
+        $resolver->setDefault('force', false)->setDefault('ignore-errors', false);
     }
 }

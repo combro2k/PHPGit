@@ -28,8 +28,7 @@ class ResetCommand extends Command
      */
     public function __invoke($paths, $commit = null)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('reset');
+        $builder = $this->git->getProcessBuilder()->add('reset');
 
         if ($commit) {
             $builder->add($commit)->add('--');
@@ -98,7 +97,8 @@ class ResetCommand extends Command
     /**
      * Resets the current branch head to **$commit**.
      *
-     * Resets the index and working tree. Any changes to tracked files in the working tree since **$commit** are discarded
+     * Resets the index and working tree. Any changes to tracked files in the working tree since **$commit** are
+     * discarded
      *
      * ``` php
      * $git = new PHPGit\Git();
@@ -179,13 +179,18 @@ class ResetCommand extends Command
      */
     public function mode($mode, $commit = null)
     {
-        if (!in_array($mode, array('soft', 'mixed', 'hard', 'merge', 'keep'))) {
+        if (!in_array($mode, array(
+            'soft',
+            'mixed',
+            'hard',
+            'merge',
+            'keep',
+        ))
+        ) {
             throw new \InvalidArgumentException('$mode must be one of the following: soft, mixed, hard, merge, keep');
         }
 
-        $builder = $this->git->getProcessBuilder()
-            ->add('reset')
-            ->add('--'.$mode);
+        $builder = $this->git->getProcessBuilder()->add('reset')->add('--'.$mode);
 
         if ($commit) {
             $builder->add($commit);

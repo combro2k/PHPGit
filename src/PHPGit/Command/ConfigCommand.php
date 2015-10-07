@@ -31,12 +31,12 @@ class ConfigCommand extends Command
     public function __invoke(array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('config')
-            ->add('--list')
-            ->add('--null');
+        $builder = $this->git->getProcessBuilder()->add('config')->add('--list')->add('--null');
 
-        $this->addFlags($builder, $options, array('global', 'system'));
+        $this->addFlags($builder, $options, array(
+            'global',
+            'system',
+        ));
 
         $config = array();
         $output = $this->git->run($builder->getProcess());
@@ -74,10 +74,12 @@ class ConfigCommand extends Command
     public function set($name, $value, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('config');
+        $builder = $this->git->getProcessBuilder()->add('config');
 
-        $this->addFlags($builder, $options, array('global', 'system'));
+        $this->addFlags($builder, $options, array(
+            'global',
+            'system',
+        ));
 
         $builder->add($name)->add($value);
         $process = $builder->getProcess();
@@ -105,10 +107,12 @@ class ConfigCommand extends Command
     public function add($name, $value, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('config');
+        $builder = $this->git->getProcessBuilder()->add('config');
 
-        $this->addFlags($builder, $options, array('global', 'system'));
+        $this->addFlags($builder, $options, array(
+            'global',
+            'system',
+        ));
 
         $builder->add('--add')->add($name)->add($value);
         $process = $builder->getProcess();
@@ -125,8 +129,6 @@ class ConfigCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('global', false)
-            ->setDefault('system', false);
+        $resolver->setDefault('global', false)->setDefault('system', false);
     }
 }

@@ -27,7 +27,8 @@ class CommitCommand extends Command
      * ##### Options
      *
      * - **all**           (_boolean_) Stage files that have been modified and deleted
-     * - **reuse-message** (_string_)  Take an existing commit object, and reuse the log message and the authorship information (including the timestamp) when creating the commit
+     * - **reuse-message** (_string_)  Take an existing commit object, and reuse the log message and the authorship
+     * information (including the timestamp) when creating the commit
      * - **squash**        (_string_)  Construct a commit message for use with rebase --autosquash
      * - **author**        (_string_)  Override the commit author
      * - **date**          (_string_)  Override the author date used in the commit
@@ -44,12 +45,19 @@ class CommitCommand extends Command
     public function __invoke($message, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('commit')
-            ->add('-m')->add($message);
+        $builder = $this->git->getProcessBuilder()->add('commit')->add('-m')->add($message);
 
-        $this->addFlags($builder, $options, array('all', 'amend'));
-        $this->addValues($builder, $options, array('reuse-message', 'squash', 'author', 'date', 'cleanup'));
+        $this->addFlags($builder, $options, array(
+            'all',
+            'amend',
+        ));
+        $this->addValues($builder, $options, array(
+            'reuse-message',
+            'squash',
+            'author',
+            'date',
+            'cleanup',
+        ));
 
         $this->git->run($builder->getProcess());
 
@@ -60,7 +68,8 @@ class CommitCommand extends Command
      * {@inheritdoc}
      *
      * - **all**           (_boolean_) Stage files that have been modified and deleted
-     * - **reuse-message** (_string_)  Take an existing commit object, and reuse the log message and the authorship information (including the timestamp) when creating the commit
+     * - **reuse-message** (_string_)  Take an existing commit object, and reuse the log message and the authorship
+     * information (including the timestamp) when creating the commit
      * - **squash**        (_string_)  Construct a commit message for use with rebase --autosquash
      * - **author**        (_string_)  Override the commit author
      * - **date**          (_string_)  Override the author date used in the commit
@@ -69,15 +78,19 @@ class CommitCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('all', false)
-            ->setDefault('reuse-message', null)
-            ->setDefault('squash', null)
-            ->setDefault('author', null)
-            ->setDefault('date', null)
-            ->setDefault('cleanup', null)
-            ->setDefault('amend', false)
-
-            ->setAllowedValues('cleanup', array(null, 'default', 'verbatim', 'whitespace', 'strip'));
+        $resolver->setDefault('all', false)
+                 ->setDefault('reuse-message', null)
+                 ->setDefault('squash', null)
+                 ->setDefault('author', null)
+                 ->setDefault('date', null)
+                 ->setDefault('cleanup', null)
+                 ->setDefault('amend', false)
+                 ->setAllowedValues('cleanup', array(
+                     null,
+                     'default',
+                     'verbatim',
+                     'whitespace',
+                     'strip',
+                 ));
     }
 }

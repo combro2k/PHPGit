@@ -100,13 +100,19 @@ class StatusCommand extends Command
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
-            ->add('status')
-            ->add('--porcelain')->add('-s')->add('-b')->add('--null');
+                             ->add('status')
+                             ->add('--porcelain')
+                             ->add('-s')
+                             ->add('-b')
+                             ->add('--null');
 
         $this->addFlags($builder, $options);
 
         $process = $builder->getProcess();
-        $result = array('branch' => null, 'changes' => array());
+        $result = array(
+            'branch' => null,
+            'changes' => array(),
+        );
         $output = $this->git->run($process);
 
         list($branch, $changes) = preg_split('/(\0|\n)/', $output, 2);

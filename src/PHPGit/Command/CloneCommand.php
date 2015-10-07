@@ -38,9 +38,7 @@ class CloneCommand extends Command
     public function __invoke($repository, $path = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('clone')
-            ->add('--quiet');
+        $builder = $this->git->getProcessBuilder()->add('clone')->add('--quiet');
 
         if ($options['branch']) {
             $builder->add('--branch='.$options['branch']);
@@ -69,12 +67,13 @@ class CloneCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('shared', false)
-            ->setDefault('bare', false)
-            ->setDefault('branch', null)
-            ->setDefault('mirror', null)
-
-            ->setAllowedTypes('branch', array('null', 'string'));
+        $resolver->setDefault('shared', false)
+                 ->setDefault('bare', false)
+                 ->setDefault('branch', null)
+                 ->setDefault('mirror', null)
+                 ->setAllowedTypes('branch', array(
+                     'null',
+                     'string',
+                 ));
     }
 }

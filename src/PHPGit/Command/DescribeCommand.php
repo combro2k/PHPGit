@@ -43,8 +43,7 @@ class DescribeCommand extends Command
     public function __invoke($committish = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('describe');
+        $builder = $this->git->getProcessBuilder()->add('describe');
 
         $this->addFlags($builder, $options, array());
 
@@ -79,10 +78,9 @@ class DescribeCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('all', false)
-            ->setDefault('tags', false)
-            ->setDefault('contains', false)
-            ->setDefault('always', false);
+        $resolver->setDefault('all', false)
+                 ->setDefault('tags', false)
+                 ->setDefault('contains', false)
+                 ->setDefault('always', false);
     }
 }

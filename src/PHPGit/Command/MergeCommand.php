@@ -25,9 +25,12 @@ class MergeCommand extends Command
      *
      * ##### Options
      *
-     * - **no-ff**               (_boolean_) Do not generate a merge commit if the merge resolved as a fast-forward, only update the branch pointer
-     * - **rerere-autoupdate**   (_boolean_) Allow the rerere mechanism to update the index with the result of auto-conflict resolution if possible
-     * - **squash**              (_boolean_) Allows you to create a single commit on top of the current branch whose effect is the same as merging another branch
+     * - **no-ff**               (_boolean_) Do not generate a merge commit if the merge resolved as a fast-forward,
+     * only update the branch pointer
+     * - **rerere-autoupdate**   (_boolean_) Allow the rerere mechanism to update the index with the result of
+     * auto-conflict resolution if possible
+     * - **squash**              (_boolean_) Allows you to create a single commit on top of the current branch whose
+     * effect is the same as merging another branch
      * - **strategy**            (_string_)  Use the given merge strategy
      * - **strategy-option**     (_string_)  Pass merge strategy specific option through to the merge strategy
      *
@@ -42,10 +45,13 @@ class MergeCommand extends Command
     public function __invoke($commit, $message = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('merge');
+        $builder = $this->git->getProcessBuilder()->add('merge');
 
-        $this->addFlags($builder, $options, array('no-ff', 'rerere-autoupdate', 'squash'));
+        $this->addFlags($builder, $options, array(
+            'no-ff',
+            'rerere-autoupdate',
+            'squash',
+        ));
 
         if (!is_array($commit) && !($commit instanceof \Traversable)) {
             $commit = array($commit);
@@ -78,9 +84,7 @@ class MergeCommand extends Command
      */
     public function abort()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('merge')
-            ->add('--abort');
+        $builder = $this->git->getProcessBuilder()->add('merge')->add('--abort');
 
         $this->git->run($builder->getProcess());
 
@@ -90,19 +94,21 @@ class MergeCommand extends Command
     /**
      * {@inheritdoc}
      *
-     * - **no-ff**               (_boolean_) Do not generate a merge commit if the merge resolved as a fast-forward, only update the branch pointer
-     * - **rerere-autoupdate**   (_boolean_) Allow the rerere mechanism to update the index with the result of auto-conflict resolution if possible
-     * - **squash**              (_boolean_) Allows you to create a single commit on top of the current branch whose effect is the same as merging another branch
+     * - **no-ff**               (_boolean_) Do not generate a merge commit if the merge resolved as a fast-forward,
+     * only update the branch pointer
+     * - **rerere-autoupdate**   (_boolean_) Allow the rerere mechanism to update the index with the result of
+     * auto-conflict resolution if possible
+     * - **squash**              (_boolean_) Allows you to create a single commit on top of the current branch whose
+     * effect is the same as merging another branch
      * - **strategy**            (_string_)  Use the given merge strategy
      * - **strategy-option**     (_string_)  Pass merge strategy specific option through to the merge strategy
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('no-ff', false)
-            ->setDefault('rerere-autoupdate', false)
-            ->setDefault('squash', false)
-            ->setDefault('strategy', null)
-            ->setDefault('strategy-option', null);
+        $resolver->setDefault('no-ff', false)
+                 ->setDefault('rerere-autoupdate', false)
+                 ->setDefault('squash', false)
+                 ->setDefault('strategy', null)
+                 ->setDefault('strategy-option', null);
     }
 }

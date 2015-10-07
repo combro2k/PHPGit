@@ -25,9 +25,12 @@ class TreeCommand extends Command
      *
      * ``` php
      * [
-     *     ['mode' => '100644', 'type' => 'blob', 'hash' => '1f100ce9855b66111d34b9807e47a73a9e7359f3', 'file' => '.gitignore', 'sort' => '2:.gitignore'],
-     *     ['mode' => '100644', 'type' => 'blob', 'hash' => 'e0bfe494537037451b09c32636c8c2c9795c05c0', 'file' => '.travis.yml', 'sort' => '2:.travis.yml'],
-     *     ['mode' => '040000', 'type' => 'tree', 'hash' => '8d5438e79f77cd72de80c49a413f4edde1f3e291', 'file' => 'bin', 'sort' => '1:.bin'],
+     *     ['mode' => '100644', 'type' => 'blob', 'hash' => '1f100ce9855b66111d34b9807e47a73a9e7359f3', 'file' =>
+     *     '.gitignore', 'sort' => '2:.gitignore'],
+     *     ['mode' => '100644', 'type' => 'blob', 'hash' => 'e0bfe494537037451b09c32636c8c2c9795c05c0', 'file' =>
+     *     '.travis.yml', 'sort' => '2:.travis.yml'],
+     *     ['mode' => '040000', 'type' => 'tree', 'hash' => '8d5438e79f77cd72de80c49a413f4edde1f3e291', 'file' =>
+     *     'bin', 'sort' => '1:.bin'],
      * ]
      * ```
      *
@@ -68,8 +71,8 @@ class TreeCommand extends Command
 
     /**
      * @param string $from
-     * @param null $to
-     * @param bool $status
+     * @param null   $to
+     * @param bool   $status
      * @param string $filter
      *
      * @return array
@@ -81,9 +84,7 @@ class TreeCommand extends Command
         $diff = array();
 
         $builder = $this->git->getProcessBuilder();
-        $builder
-            ->add('diff-tree')
-            ->add('-r');
+        $builder->add('diff-tree')->add('-r');
 
         if ($status) {
             $builder->add('--name-status');

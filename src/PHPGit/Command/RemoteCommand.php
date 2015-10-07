@@ -12,7 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @author Kazuyuki Hayashi <hayashi@valnur.net>
  *
  * @method head($name, $branch)                                     Sets the default branch for the named remote
- * @method branches($name, $branches)                               Changes the list of branches tracked by the named remote
+ * @method branches($name, $branches)                               Changes the list of branches tracked by the named
+ *         remote
  * @method url($name, $newUrl, $oldUrl = null, $options = array()) Sets the URL remote to $newUrl
  */
 class RemoteCommand extends Command
@@ -82,9 +83,7 @@ class RemoteCommand extends Command
      */
     public function __invoke()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('-v');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('-v');
 
         $remotes = array();
         $output = $this->git->run($builder->getProcess());
@@ -127,11 +126,12 @@ class RemoteCommand extends Command
     public function add($name, $url, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('add');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('add');
 
-        $this->addFlags($builder, $options, array('tags', 'no-tags'));
+        $this->addFlags($builder, $options, array(
+            'tags',
+            'no-tags',
+        ));
 
         $builder->add($name)->add($url);
 
@@ -157,11 +157,7 @@ class RemoteCommand extends Command
      */
     public function rename($name, $newName)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('rename')
-            ->add($name)
-            ->add($newName);
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('rename')->add($name)->add($newName);
 
         $this->git->run($builder->getProcess());
 
@@ -184,10 +180,7 @@ class RemoteCommand extends Command
      */
     public function rm($name)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('rm')
-            ->add($name);
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('rm')->add($name);
 
         $this->git->run($builder->getProcess());
 
@@ -225,10 +218,7 @@ class RemoteCommand extends Command
      */
     public function show($name)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('show')
-            ->add($name);
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('show')->add($name);
 
         return $this->git->run($builder->getProcess());
     }
@@ -248,9 +238,7 @@ class RemoteCommand extends Command
      */
     public function prune($name = null)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('prune');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('prune');
 
         if ($name) {
             $builder->add($name);
@@ -269,8 +257,6 @@ class RemoteCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('tags', false)
-            ->setDefault('no-tags', false);
+        $resolver->setDefault('tags', false)->setDefault('no-tags', false);
     }
 }

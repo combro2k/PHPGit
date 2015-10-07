@@ -10,7 +10,8 @@ use Symfony\Component\Process\ProcessBuilder;
  * PHPGit - A Git wrapper for PHP5.3+
  * ==================================.
  *
- * [![Latest Unstable Version](https://poser.pugx.org/kzykhys/git/v/unstable.png)](https://packagist.org/packages/kzykhys/git)
+ * [![Latest Unstable
+ * Version](https://poser.pugx.org/kzykhys/git/v/unstable.png)](https://packagist.org/packages/kzykhys/git)
  * [![Build Status](https://travis-ci.org/kzykhys/PHPGit.png?branch=master)](https://travis-ci.org/kzykhys/PHPGit)
  * [![Coverage Status](https://coveralls.io/repos/kzykhys/PHPGit/badge.png)](https://coveralls.io/r/kzykhys/PHPGit)
  * [![SensioLabsInsight](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f/mini.png)](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f)
@@ -66,27 +67,39 @@ use Symfony\Component\Process\ProcessBuilder;
  *
  * @method add($file, $options = array())                           Add file contents to the index
  * @method archive($file, $tree = null, $path = null, $options = array()) Create an archive of files from a named tree
- * @method branch($options = array())                               List both remote-tracking branches and local branches
+ * @method branch($options = array())                               List both remote-tracking branches and local
+ *         branches
  * @method checkout($branch, $options = array())                    Checkout a branch or paths to the working tree
  * @method clone($repository, $path = null, $options = array())     Clone a repository into a new directory
  * @method commit($message = '', $options = array())                Record changes to the repository
  * @method config($options = array())                               List all variables set in config file
- * @method describe($committish = null, $options = array())         Returns the most recent tag that is reachable from a commit
+ * @method describe($committish = null, $options = array())         Returns the most recent tag that is reachable from
+ *         a commit
  * @method diff($revRange = '', $path = null, $options = array())   Returns diffs of specific commits
- * @method fetch($repository, $refspec = null, $options = array())  Fetches named heads or tags from one or more other repositories
- * @method init($path, $options = array())                          Create an empty git repository or reinitialize an existing one
+ * @method fetch($repository, $refspec = null, $options = array())  Fetches named heads or tags from one or more other
+ *         repositories
+ * @method init($path, $options = array())                          Create an empty git repository or reinitialize an
+ *         existing one
  * @method log($revRange = '', $path = null, $options = array())                    Returns the commit logs
- * @method merge($commit, $message = null, $options = array())      Incorporates changes from the named commits into the current branch
+ * @method merge($commit, $message = null, $options = array())      Incorporates changes from the named commits into
+ *         the current branch
  * @method mv($source, $destination, $options = array())            Move or rename a file, a directory, or a symlink
- * @method pull($repository = null, $refspec = null, $options = array()) Fetch from and merge with another repository or a local branch
- * @method push($repository = null, $refspec = null, $options = array()) Update remote refs along with associated objects
- * @method rebase($upstream = null, $branch = null, $options = array())  Forward-port local commits to the updated upstream head
+ * @method pull($repository = null, $refspec = null, $options = array()) Fetch from and merge with another repository
+ *         or a local branch
+ * @method push($repository = null, $refspec = null, $options = array()) Update remote refs along with associated
+ *         objects
+ * @method rebase($upstream = null, $branch = null, $options = array())  Forward-port local commits to the updated
+ *         upstream head
  * @method remote()                                                 Returns an array of existing remotes
- * @method reset($commit = null, $paths = array())                  Resets the index entries for all <paths> to their state at <commit>
- * @method rm($file, $options = array())                            Remove files from the working tree and from the index
+ * @method reset($commit = null, $paths = array())                  Resets the index entries for all <paths> to their
+ *         state at <commit>
+ * @method rm($file, $options = array())                            Remove files from the working tree and from the
+ *         index
  * @method shortlog($commits = array())                             Summarize 'git log' output
- * @method show($object, $options = array())                        Shows one or more objects (blobs, trees, tags and commits)
- * @method stash()                                                  Save your local modifications to a new stash, and run git reset --hard to revert them
+ * @method show($object, $options = array())                        Shows one or more objects (blobs, trees, tags and
+ *         commits)
+ * @method stash()                                                  Save your local modifications to a new stash, and
+ *         run git reset --hard to revert them
  * @method status($options = array())                               Show the working tree status
  * @method tag()                                                    Returns an array of tags
  * @method tree($branch = 'master', $path = '')                     List the contents of a tree object
@@ -274,9 +287,7 @@ class Git
      */
     public function getVersion()
     {
-        $process = $this->getProcessBuilder()
-            ->add('--version')
-            ->getProcess();
+        $process = $this->getProcessBuilder()->add('--version')->getProcess();
 
         return $this->run($process);
     }
@@ -289,9 +300,9 @@ class Git
     public function getProcessBuilder()
     {
         return ProcessBuilder::create()
-            ->setTimeout($this->getTimeout())
-            ->setPrefix($this->getBin())
-            ->setWorkingDirectory($this->directory);
+                             ->setTimeout($this->getTimeout())
+                             ->setPrefix($this->getBin())
+                             ->setWorkingDirectory($this->directory);
     }
 
     /**
@@ -349,10 +360,9 @@ class Git
             throw new GitException('Path private key could not be resolved: '.$privateKey);
         }
 
-        return $this
-            ->setEnvVar('GIT_SSH', $wrapperPath)
-            ->setEnvVar('GIT_SSH_KEY', $privateKeyPath)
-            ->setEnvVar('GIT_SSH_PORT', (int) $port);
+        return $this->setEnvVar('GIT_SSH', $wrapperPath)
+                    ->setEnvVar('GIT_SSH_KEY', $privateKeyPath)
+                    ->setEnvVar('GIT_SSH_PORT', (int) $port);
     }
 
     /**

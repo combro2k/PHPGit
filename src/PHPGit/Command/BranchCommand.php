@@ -46,8 +46,7 @@ class BranchCommand extends Command
     {
         $options = $this->resolve($options);
         $branches = array();
-        $builder = $this->getProcessBuilder()
-            ->add('-v')->add('--abbrev=7');
+        $builder = $this->getProcessBuilder()->add('-v')->add('--abbrev=7');
 
         if ($options['remotes']) {
             $builder->add('--remotes');
@@ -66,7 +65,7 @@ class BranchCommand extends Command
             $branch = array();
             preg_match('/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7,}) (?<title>.*))/', $line, $matches);
 
-            /** Fix if HEAD is detached at */
+            /* Fix if HEAD is detached at */
             if (empty($matches['name'])) {
                 preg_match('/(?<current>\*| ) ((?<name>.*)) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7,}) (?<title>.*))/', $line, $matches);
 
@@ -181,7 +180,8 @@ class BranchCommand extends Command
      * $git->branch->delete('2.0');
      * ```
      *
-     * The branch must be fully merged in its upstream branch, or in HEAD if no upstream was set with --track or --set-upstream.
+     * The branch must be fully merged in its upstream branch, or in HEAD if no upstream was set with --track or
+     * --set-upstream.
      *
      * ##### Options
      *
@@ -220,10 +220,7 @@ class BranchCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('force', false)
-            ->setDefault('all', false)
-            ->setDefault('remotes', false);
+        $resolver->setDefault('force', false)->setDefault('all', false)->setDefault('remotes', false);
     }
 
     /**
@@ -231,7 +228,6 @@ class BranchCommand extends Command
      */
     protected function getProcessBuilder()
     {
-        return $this->git->getProcessBuilder()
-            ->add('branch');
+        return $this->git->getProcessBuilder()->add('branch');
     }
 }

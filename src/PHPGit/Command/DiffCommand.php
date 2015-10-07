@@ -26,7 +26,8 @@ class DiffCommand extends Command
      * ##### Options
      *
      * @param string $revRange [optional] Show only commits in the specified revision range
-     * @param string $path     [optional] Show only commits that are enough to explain how the files that match the specified paths came to be
+     * @param string $path     [optional] Show only commits that are enough to explain how the files that match the
+     *                         specified paths came to be
      * @param array  $options  [optional] An array of options {@see LogCommand::setDefaultOptions}
      *
      * @throws GitException
@@ -35,10 +36,7 @@ class DiffCommand extends Command
      */
     public function __invoke($revRange = '', $path = null, array $options = array())
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('diff')
-            ->add('--color')
-        ;
+        $builder = $this->git->getProcessBuilder()->add('diff')->add('--color');
 
         if ($revRange) {
             $builder->add($revRange);

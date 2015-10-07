@@ -37,10 +37,18 @@ class CheckoutCommand extends Command
     public function __invoke($branch, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('checkout');
+        $builder = $this->git->getProcessBuilder()->add('checkout');
 
-        $this->addFlags($builder, $options, array('force', 'merge'));
+        if (!array_key_exists('merge', $options) && (array_key_exists('ours', $options) || array_key_exists('theirs', $options))) {
+            $options['merge'] = true;
+        }
+
+        $this->addFlags($builder, $options, array(
+            'force',
+            'merge',
+            'ours',
+            'theirs',
+        ));
 
         $builder->add($branch);
         $this->git->run($builder->getProcess());
@@ -73,11 +81,12 @@ class CheckoutCommand extends Command
     public function create($branch, $startPoint = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('checkout')
-            ->add('-b');
+        $builder = $this->git->getProcessBuilder()->add('checkout')->add('-b');
 
-        $this->addFlags($builder, $options, array('force', 'merge'));
+        $this->addFlags($builder, $options, array(
+            'force',
+            'merge',
+        ));
 
         $builder->add($branch);
 
@@ -114,10 +123,12 @@ class CheckoutCommand extends Command
     public function orphan($branch, $startPoint = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('checkout');
+        $builder = $this->git->getProcessBuilder()->add('checkout');
 
-        $this->addFlags($builder, $options, array('force', 'merge'));
+        $this->addFlags($builder, $options, array(
+            'force',
+            'merge',
+        ));
 
         $builder->add('--orphan')->add($branch);
 
@@ -138,8 +149,9 @@ class CheckoutCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('force', false)
-            ->setDefault('merge', false);
+        $resolver->setDefault('force', false)
+                 ->setDefault('merge', false)
+                 ->setDefault('theirs', false)
+                 ->setDefault('ours', false);
     }
 }

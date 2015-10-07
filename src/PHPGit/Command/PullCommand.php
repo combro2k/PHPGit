@@ -23,7 +23,8 @@ class PullCommand extends Command
      *
      * @param string $repository The "remote" repository that is the source of a fetch or pull operation
      * @param string $refspec    The format of a <refspec> parameter is an optional plus +,
-     *                           followed by the source ref <src>, followed by a colon :, followed by the destination ref <dst>
+     *                           followed by the source ref <src>, followed by a colon :, followed by the destination
+     *                           ref <dst>
      * @param array  $options    [optional] An array of options {@see PullCommand::setDefaultOptions}
      *
      * @return bool
@@ -31,8 +32,7 @@ class PullCommand extends Command
     public function __invoke($repository = null, $refspec = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('pull');
+        $builder = $this->git->getProcessBuilder()->add('pull');
 
         if ($repository) {
             $builder->add($repository);

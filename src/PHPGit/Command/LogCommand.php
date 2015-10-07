@@ -45,7 +45,8 @@ class LogCommand extends Command
      * - **skip**  (_integer_) Skip number commits before starting to show the commit output
      *
      * @param string $revRange [optional] Show only commits in the specified revision range
-     * @param string $path     [optional] Show only commits that are enough to explain how the files that match the specified paths came to be
+     * @param string $path     [optional] Show only commits that are enough to explain how the files that match the
+     *                         specified paths came to be
      * @param array  $options  [optional] An array of options {@see LogCommand::setDefaultOptions}
      *
      * @throws GitException
@@ -57,23 +58,20 @@ class LogCommand extends Command
         $commits = array();
         $options = $this->resolve($options);
 
-        $builder = $this->git->getProcessBuilder()
-            ->add('log');
+        $builder = $this->git->getProcessBuilder()->add('log');
 
         if (!is_null($options['since'])) {
             $builder->add('--since='.$options['since']);
         }
 
         if (!is_null($options['search'])) {
-            $builder
-                ->add('--grep='.$options['search'])
-                ->add('-i');
+            $builder->add('--grep='.$options['search'])->add('-i');
         }
 
-        $builder
-            ->add('-n')->add($options['limit'])
-            ->add('--skip='.$options['skip'])
-            ->add('--format=%h||%aN||%aE||%aD||%s');
+        $builder->add('-n')
+                ->add($options['limit'])
+                ->add('--skip='.$options['skip'])
+                ->add('--format=%h||%aN||%aE||%aD||%s');
 
         if ($revRange) {
             $builder->add($revRange);
@@ -102,8 +100,8 @@ class LogCommand extends Command
 
     /**
      * @param string $revRange
-     * @param null $path
-     * @param bool $status
+     * @param null   $path
+     * @param bool   $status
      *
      * @return array
      *
@@ -111,8 +109,7 @@ class LogCommand extends Command
      */
     public function changed($revRange = '', $path = null, $status = false)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('log');
+        $builder = $this->git->getProcessBuilder()->add('log');
 
         if ($status) {
             $builder->add('--name-status');
@@ -120,8 +117,7 @@ class LogCommand extends Command
             $builder->add('--name-only');
         }
 
-        $builder
-            ->add('--format=');
+        $builder->add('--format=');
 
         if ($revRange) {
             $builder->add($revRange);
@@ -159,10 +155,9 @@ class LogCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('limit', 10)
-            ->setDefault('since', null)
-            ->setDefault('search', null)
-            ->setDefault('skip', 0);
+        $resolver->setDefault('limit', 10)
+                 ->setDefault('since', null)
+                 ->setDefault('search', null)
+                 ->setDefault('skip', 0);
     }
 }

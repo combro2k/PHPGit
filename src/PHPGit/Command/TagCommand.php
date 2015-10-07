@@ -35,8 +35,7 @@ class TagCommand extends Command
      */
     public function __invoke()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('tag');
+        $builder = $this->git->getProcessBuilder()->add('tag');
 
         $output = $this->git->run($builder->getProcess());
 
@@ -69,11 +68,13 @@ class TagCommand extends Command
     public function create($tag, $commit = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('tag')
-            ->add($tag);
+        $builder = $this->git->getProcessBuilder()->add('tag')->add($tag);
 
-        $this->addFlags($builder, $options, array('annotate', 'sign', 'force'));
+        $this->addFlags($builder, $options, array(
+            'annotate',
+            'sign',
+            'force',
+        ));
 
         if ($commit) {
             $builder->add($commit);
@@ -95,9 +96,7 @@ class TagCommand extends Command
      */
     public function delete($tag)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('tag')
-            ->add('-d');
+        $builder = $this->git->getProcessBuilder()->add('tag')->add('-d');
 
         if (!is_array($tag) && !($tag instanceof \Traversable)) {
             $tag = array($tag);
@@ -123,9 +122,7 @@ class TagCommand extends Command
      */
     public function verify($tag)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('tag')
-            ->add('-v');
+        $builder = $this->git->getProcessBuilder()->add('tag')->add('-v');
 
         if (!is_array($tag) && !($tag instanceof \Traversable)) {
             $tag = array($tag);
@@ -149,9 +146,6 @@ class TagCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('annotate', false)
-            ->setDefault('sign', false)
-            ->setDefault('force', false);
+        $resolver->setDefault('annotate', false)->setDefault('sign', false)->setDefault('force', false);
     }
 }

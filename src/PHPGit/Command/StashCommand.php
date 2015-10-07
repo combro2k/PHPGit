@@ -24,8 +24,7 @@ class StashCommand extends Command
      */
     public function __invoke()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash');
+        $builder = $this->git->getProcessBuilder()->add('stash');
 
         $this->git->run($builder->getProcess());
 
@@ -49,9 +48,7 @@ class StashCommand extends Command
     public function save($message = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('save');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('save');
 
         $builder->add($message);
 
@@ -84,9 +81,7 @@ class StashCommand extends Command
      */
     public function lists(array $options = array())
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('list');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('list');
 
         $output = $this->git->run($builder->getProcess());
         $lines = $this->split($output);
@@ -126,9 +121,7 @@ class StashCommand extends Command
      */
     public function show($stash = null)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('show');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('show');
 
         if ($stash) {
             $builder->add($stash);
@@ -152,9 +145,7 @@ class StashCommand extends Command
      */
     public function drop($stash = null)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('drop');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('drop');
 
         if ($stash) {
             $builder->add($stash);
@@ -180,9 +171,7 @@ class StashCommand extends Command
     public function pop($stash = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('pop');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('pop');
 
         $this->addFlags($builder, $options, array('index'));
 
@@ -212,9 +201,7 @@ class StashCommand extends Command
     public function apply($stash = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('apply');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('apply');
 
         $this->addFlags($builder, $options, array('index'));
 
@@ -228,7 +215,8 @@ class StashCommand extends Command
     }
 
     /**
-     * Creates and checks out a new branch named <branchname> starting from the commit at which the <stash> was originally created, applies the changes recorded in <stash> to the new working tree and index.
+     * Creates and checks out a new branch named <branchname> starting from the commit at which the <stash> was
+     * originally created, applies the changes recorded in <stash> to the new working tree and index.
      *
      * ``` php
      * $git = new PHPGit\Git();
@@ -243,10 +231,7 @@ class StashCommand extends Command
      */
     public function branch($name, $stash = null)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('branch')
-            ->add($name);
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('branch')->add($name);
 
         if ($stash) {
             $builder->add($stash);
@@ -270,9 +255,7 @@ class StashCommand extends Command
      */
     public function clear()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('clear');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('clear');
 
         $this->git->run($builder->getProcess());
 
@@ -280,7 +263,8 @@ class StashCommand extends Command
     }
 
     /**
-     * Create a stash (which is a regular commit object) and return its object name, without storing it anywhere in the ref namespace.
+     * Create a stash (which is a regular commit object) and return its object name, without storing it anywhere in the
+     * ref namespace.
      *
      * ``` php
      * $git = new PHPGit\Git();
@@ -298,9 +282,7 @@ class StashCommand extends Command
      */
     public function create()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('create');
+        $builder = $this->git->getProcessBuilder()->add('stash')->add('create');
 
         return $this->git->run($builder->getProcess());
     }

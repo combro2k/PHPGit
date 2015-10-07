@@ -27,7 +27,8 @@ class RmCommand extends Command
      * - **cached**    (_boolean_) Unstage and remove paths only from the index
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      *
-     * @param string|array|\Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
+     * @param string|array|\Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all
+     *                                           matching files.
      * @param array                     $options [optional] An array of options {@see RmCommand::setDefaultOptions}
      *
      * @return bool
@@ -35,10 +36,12 @@ class RmCommand extends Command
     public function __invoke($file, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('rm');
+        $builder = $this->git->getProcessBuilder()->add('rm');
 
-        $this->addFlags($builder, $options, array('force', 'cached'));
+        $this->addFlags($builder, $options, array(
+            'force',
+            'cached',
+        ));
 
         if ($options['recursive']) {
             $builder->add('-r');
@@ -65,7 +68,8 @@ class RmCommand extends Command
      * - **force**     (_boolean_) Override the up-to-date check
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      *
-     * @param string|array|\Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
+     * @param string|array|\Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all
+     *                                           matching files.
      * @param array                     $options [optional] An array of options {@see RmCommand::setDefaultOptions}
      *
      * @return bool
@@ -86,9 +90,6 @@ class RmCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('force', false)
-            ->setDefault('cached', false)
-            ->setDefault('recursive', false);
+        $resolver->setDefault('force', false)->setDefault('cached', false)->setDefault('recursive', false);
     }
 }

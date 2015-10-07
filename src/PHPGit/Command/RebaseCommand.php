@@ -26,7 +26,8 @@ class RebaseCommand extends Command
      *
      * - **onto**          (_string_)  Starting point at which to create the new commits
      * - **no-verify**     (_boolean_) Bypasses the pre-rebase hook
-     * - **force-rebase**  (_boolean_) Force the rebase even if the current branch is a descendant of the commit you are rebasing onto
+     * - **force-rebase**  (_boolean_) Force the rebase even if the current branch is a descendant of the commit you
+     * are rebasing onto
      *
      * @param string $upstream [optional] Upstream branch to compare against
      * @param string $branch   [optional] Working branch; defaults to HEAD
@@ -37,8 +38,7 @@ class RebaseCommand extends Command
     public function __invoke($upstream = null, $branch = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase');
+        $builder = $this->git->getProcessBuilder()->add('rebase');
 
         if ($options['onto']) {
             $builder->add('--onto')->add($options['onto']);
@@ -64,9 +64,7 @@ class RebaseCommand extends Command
      */
     public function continues()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase')
-            ->add('--continue');
+        $builder = $this->git->getProcessBuilder()->add('rebase')->add('--continue');
 
         $this->git->run($builder->getProcess());
 
@@ -80,9 +78,7 @@ class RebaseCommand extends Command
      */
     public function abort()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase')
-            ->add('--abort');
+        $builder = $this->git->getProcessBuilder()->add('rebase')->add('--abort');
 
         $this->git->run($builder->getProcess());
 
@@ -96,9 +92,7 @@ class RebaseCommand extends Command
      */
     public function skip()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase')
-            ->add('--skip');
+        $builder = $this->git->getProcessBuilder()->add('rebase')->add('--skip');
 
         $this->git->run($builder->getProcess());
 
@@ -110,15 +104,17 @@ class RebaseCommand extends Command
      *
      * - **onto**          (_string_)  Starting point at which to create the new commits
      * - **no-verify**     (_boolean_) Bypasses the pre-rebase hook
-     * - **force-rebase**  (_boolean_) Force the rebase even if the current branch is a descendant of the commit you are rebasing onto
+     * - **force-rebase**  (_boolean_) Force the rebase even if the current branch is a descendant of the commit you
+     * are rebasing onto
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('onto', null)
-            ->setDefault('no-verify', false)
-            ->setDefault('force-rebase', false)
-
-            ->setAllowedTypes('onto', array('null', 'string'));
+        $resolver->setDefault('onto', null)
+                 ->setDefault('no-verify', false)
+                 ->setDefault('force-rebase', false)
+                 ->setAllowedTypes('onto', array(
+                     'null',
+                     'string',
+                 ));
     }
 }

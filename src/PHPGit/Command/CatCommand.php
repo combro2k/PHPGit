@@ -29,11 +29,7 @@ class CatCommand extends Command
      */
     public function blob($object)
     {
-        $process = $this->git->getProcessBuilder()
-            ->add('cat-file')
-            ->add('blob')
-            ->add($object)
-            ->getProcess();
+        $process = $this->git->getProcessBuilder()->add('cat-file')->add('blob')->add($object)->getProcess();
 
         return $this->git->run($process);
     }
@@ -55,11 +51,7 @@ class CatCommand extends Command
      */
     public function type($object)
     {
-        $process = $this->git->getProcessBuilder()
-            ->add('cat-file')
-            ->add('-t')
-            ->add($object)
-            ->getProcess();
+        $process = $this->git->getProcessBuilder()->add('cat-file')->add('-t')->add($object)->getProcess();
 
         return trim($this->git->run($process));
     }
@@ -81,11 +73,7 @@ class CatCommand extends Command
      */
     public function size($object)
     {
-        $process = $this->git->getProcessBuilder()
-            ->add('cat-file')
-            ->add('-s')
-            ->add($object)
-            ->getProcess();
+        $process = $this->git->getProcessBuilder()->add('cat-file')->add('-s')->add($object)->getProcess();
 
         return trim($this->git->run($process));
     }

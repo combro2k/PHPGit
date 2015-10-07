@@ -23,8 +23,10 @@ class ShowCommand extends Command
      *
      * ##### Options
      *
-     * - **format**        (_string_)  Pretty-print the contents of the commit logs in a given format, where <format> can be one of oneline, short, medium, full, fuller, email, raw and format:<string>
-     * - **abbrev-commit** (_boolean_) Instead of showing the full 40-byte hexadecimal commit object name, show only a partial prefix
+     * - **format**        (_string_)  Pretty-print the contents of the commit logs in a given format, where <format>
+     * can be one of oneline, short, medium, full, fuller, email, raw and format:<string>
+     * - **abbrev-commit** (_boolean_) Instead of showing the full 40-byte hexadecimal commit object name, show only a
+     * partial prefix
      *
      * @param string $object  The names of objects to show
      * @param array  $options [optional] An array of options {@see ShowCommand::setDefaultOptions}
@@ -34,8 +36,7 @@ class ShowCommand extends Command
     public function __invoke($object, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('show');
+        $builder = $this->git->getProcessBuilder()->add('show');
 
         $this->addFlags($builder, $options, array('abbrev-commit'));
 
@@ -51,14 +52,16 @@ class ShowCommand extends Command
     /**
      * {@inheritdoc}
      *
-     * - **format**        (_string_)  Pretty-print the contents of the commit logs in a given format, where <format> can be one of oneline, short, medium, full, fuller, email, raw and format:<string>
-     * - **abbrev-commit** (_boolean_) Instead of showing the full 40-byte hexadecimal commit object name, show only a partial prefix
+     * - **format**        (_string_)  Pretty-print the contents of the commit logs in a given format, where <format>
+     * can be one of oneline, short, medium, full, fuller, email, raw and format:<string>
+     * - **abbrev-commit** (_boolean_) Instead of showing the full 40-byte hexadecimal commit object name, show only a
+     * partial prefix
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('format', null)
-            ->setDefault('abbrev-commit', false)
-            ->setAllowedTypes('format', array('null', 'string'));
+        $resolver->setDefault('format', null)->setDefault('abbrev-commit', false)->setAllowedTypes('format', array(
+            'null',
+            'string',
+        ));
     }
 }

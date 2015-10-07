@@ -30,8 +30,7 @@ class PushCommand extends Command
     public function __invoke($repository = null, $refspec = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('push');
+        $builder = $this->git->getProcessBuilder()->add('push');
 
         $this->addFlags($builder, $options);
 
@@ -53,10 +52,9 @@ class PushCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('all', false)
-            ->setDefault('mirror', false)
-            ->setDefault('tags', false)
-            ->setDefault('force', false);
+        $resolver->setDefault('all', false)
+                 ->setDefault('mirror', false)
+                 ->setDefault('tags', false)
+                 ->setDefault('force', false);
     }
 }

@@ -25,8 +25,10 @@ class ShortlogCommand extends Command
      * ``` php
      * [
      *     'John Doe <john@example.com>' => [
-     *         0 => ['commit' => '589de67', 'date' => new \DateTime('2014-02-10 12:56:15 +0300'), 'subject' => 'Update README'],
-     *         1 => ['commit' => '589de67', 'date' => new \DateTime('2014-02-15 12:56:15 +0300'), 'subject' => 'Update README'],
+     *         0 => ['commit' => '589de67', 'date' => new \DateTime('2014-02-10 12:56:15 +0300'), 'subject' => 'Update
+     *         README'],
+     *         1 => ['commit' => '589de67', 'date' => new \DateTime('2014-02-15 12:56:15 +0300'), 'subject' => 'Update
+     *         README'],
      *     ],
      *     //...
      * ]
@@ -39,11 +41,11 @@ class ShortlogCommand extends Command
     public function __invoke($commits = 'HEAD')
     {
         $builder = $this->git->getProcessBuilder()
-            ->add('shortlog')
-            ->add('--numbered')
-            ->add('--format=')
-            ->add('-w256,2,2')
-            ->add('-e');
+                             ->add('shortlog')
+                             ->add('--numbered')
+                             ->add('--format=')
+                             ->add('-w256,2,2')
+                             ->add('-e');
 
         if (!is_array($commits) && !($commits instanceof \Traversable)) {
             $commits = array($commits);
@@ -105,11 +107,7 @@ class ShortlogCommand extends Command
      */
     public function summary($commits = 'HEAD')
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('shortlog')
-            ->add('--numbered')
-            ->add('--summary')
-            ->add('-e');
+        $builder = $this->git->getProcessBuilder()->add('shortlog')->add('--numbered')->add('--summary')->add('-e');
 
         if (!is_array($commits) && !($commits instanceof \Traversable)) {
             $commits = array($commits);

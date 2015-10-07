@@ -62,15 +62,11 @@ class SetUrlCommand extends Command
     public function set($name, $newUrl, $oldUrl = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('set-url');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('set-url');
 
         $this->addFlags($builder, $options);
 
-        $builder
-            ->add($name)
-            ->add($newUrl);
+        $builder->add($name)->add($newUrl);
 
         if ($oldUrl) {
             $builder->add($oldUrl);
@@ -104,16 +100,11 @@ class SetUrlCommand extends Command
     public function add($name, $newUrl, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('set-url')
-            ->add('--add');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('set-url')->add('--add');
 
         $this->addFlags($builder, $options);
 
-        $builder
-            ->add($name)
-            ->add($newUrl);
+        $builder->add($name)->add($newUrl);
 
         $this->git->run($builder->getProcess());
 
@@ -143,16 +134,11 @@ class SetUrlCommand extends Command
     public function delete($name, $url, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('set-url')
-            ->add('--delete');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('set-url')->add('--delete');
 
         $this->addFlags($builder, $options);
 
-        $builder
-            ->add($name)
-            ->add($url);
+        $builder->add($name)->add($url);
 
         $this->git->run($builder->getProcess());
 

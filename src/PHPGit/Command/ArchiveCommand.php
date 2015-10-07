@@ -39,8 +39,7 @@ class ArchiveCommand extends Command
     public function __invoke($file, $tree = null, $path = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('archive');
+        $builder = $this->git->getProcessBuilder()->add('archive');
 
         if ($options['format']) {
             $builder->add('--format='.$options['format']);
@@ -77,13 +76,17 @@ class ArchiveCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefault('format', null)
-            ->setDefault('prefix', null)
-
-            ->setAllowedTypes('format', array('null', 'string'))
-            ->setAllowedTypes('prefix', array('null', 'string'))
-
-            ->setAllowedValues('format', array('tar', 'zip', 'tar.gz', 'tgz'));
+        $resolver->setDefault('format', null)->setDefault('prefix', null)->setAllowedTypes('format', array(
+            'null',
+            'string',
+        ))->setAllowedTypes('prefix', array(
+            'null',
+            'string',
+        ))->setAllowedValues('format', array(
+            'tar',
+            'zip',
+            'tar.gz',
+            'tgz',
+        ));
     }
 }

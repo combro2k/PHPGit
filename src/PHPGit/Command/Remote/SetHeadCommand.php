@@ -5,7 +5,8 @@ namespace PHPGit\Command\Remote;
 use PHPGit\Command;
 
 /**
- * Sets or deletes the default branch (i.e. the target of the symbolic-ref refs/remotes/<name>/HEAD) for the named remote.
+ * Sets or deletes the default branch (i.e. the target of the symbolic-ref refs/remotes/<name>/HEAD) for the named
+ * remote.
  *
  * @author Kazuyuki Hayashi
  */
@@ -48,10 +49,7 @@ class SetHeadCommand extends Command
      */
     public function set($name, $branch)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('set-head')
-            ->add($name);
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('set-head')->add($name);
 
         if ($branch) {
             $builder->add($branch);
@@ -78,11 +76,7 @@ class SetHeadCommand extends Command
      */
     public function delete($name)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('set-head')
-            ->add($name)
-            ->add('-d');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('set-head')->add($name)->add('-d');
 
         $this->git->run($builder->getProcess());
 
@@ -105,11 +99,7 @@ class SetHeadCommand extends Command
      */
     public function remote($name)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('remote')
-            ->add('set-head')
-            ->add($name)
-            ->add('-a');
+        $builder = $this->git->getProcessBuilder()->add('remote')->add('set-head')->add($name)->add('-a');
 
         $this->git->run($builder->getProcess());
 
