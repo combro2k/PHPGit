@@ -64,11 +64,11 @@ class BranchCommand extends Command
 
         foreach ($lines as $line) {
             $branch = array();
-            preg_match('/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/', $line, $matches);
+            preg_match('/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7,}) (?<title>.*))/', $line, $matches);
 
             /** Fix if HEAD is detached at */
             if (empty($matches['name'])) {
-                preg_match('/(?<current>\*| ) ((?<name>.*)) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/', $line, $matches);
+                preg_match('/(?<current>\*| ) ((?<name>.*)) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7,}) (?<title>.*))/', $line, $matches);
 
                 $matches['name'] = preg_replace('/\(|\)/', '', $matches['name']);
             }
