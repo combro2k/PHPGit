@@ -142,6 +142,9 @@ class Git
     /** @var Command\InitCommand */
     public $init;
 
+    /** @var  Command\LsCommand */
+    public $ls;
+
     /** @var Command\LogCommand */
     public $log;
 
@@ -231,13 +234,14 @@ class Git
         $this->status = new Command\StatusCommand($this);
         $this->tag = new Command\TagCommand($this);
         $this->tree = new Command\TreeCommand($this);
+        $this->ls = new Command\LsCommand($this);
     }
 
     /**
      * Calls sub-commands.
      *
-     * @param string $name      The name of a property
-     * @param array  $arguments An array of arguments
+     * @param string $name The name of a property
+     * @param array $arguments An array of arguments
      *
      * @throws \BadMethodCallException
      *
@@ -250,20 +254,6 @@ class Git
         }
 
         throw new \BadMethodCallException(sprintf('Call to undefined method PHPGit\Git::%s()', $name));
-    }
-
-    /**
-     * Sets the Git binary path.
-     *
-     * @param string $bin
-     *
-     * @return Git
-     */
-    public function setBin($bin)
-    {
-        $this->bin = $bin;
-
-        return $this;
     }
 
     /**
@@ -300,9 +290,51 @@ class Git
     public function getProcessBuilder()
     {
         return ProcessBuilder::create()
-                             ->setTimeout($this->getTimeout())
-                             ->setPrefix($this->getBin())
-                             ->setWorkingDirectory($this->directory);
+            ->setTimeout($this->getTimeout())
+            ->setPrefix($this->getBin())
+            ->setWorkingDirectory($this->directory);
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int $timeout
+     *
+     * @return Git
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBin()
+    {
+        return $this->bin;
+    }
+
+    /**
+     * Sets the Git binary path.
+     *
+     * @param string $bin
+     *
+     * @return Git
+     */
+    public function setBin($bin)
+    {
+        $this->bin = $bin;
+
+        return $this;
     }
 
     /**
@@ -329,15 +361,26 @@ class Git
     }
 
     /**
+     * Returns the associative array of environment variables that are defined
+     * only in the scope of the Git command.
+     *
+     * @return array
+     */
+    public function getEnvVars()
+    {
+        return $this->env;
+    }
+
+    /**
      * Set an alternate private key used to connect to the repository.
      *
      * This method sets the GIT_SSH environment variable to use the wrapper
      * script included with this library. It also sets the custom GIT_SSH_KEY
      * and GIT_SSH_PORT environment variables that are used by the script.
      *
-     * @param string      $privateKey
+     * @param string $privateKey
      *                                Path to the private key.
-     * @param int         $port
+     * @param int $port
      *                                Port that the SSH server being connected to listens on, defaults to 22.
      * @param string|null $wrapper
      *                                Path the the GIT_SSH wrapper script, defaults to null which uses the
@@ -351,18 +394,18 @@ class Git
     public function setPrivateKey($privateKey, $port = 22, $wrapper = null)
     {
         if (null === $wrapper) {
-            $wrapper = __DIR__.'/../../bin/git-ssh-wrapper.sh';
+            $wrapper = __DIR__ . '/../../bin/git-ssh-wrapper.sh';
         }
         if (!$wrapperPath = realpath($wrapper)) {
-            throw new GitException('Path to GIT_SSH wrapper script could not be resolved: '.$wrapper);
+            throw new GitException('Path to GIT_SSH wrapper script could not be resolved: ' . $wrapper);
         }
         if (!$privateKeyPath = realpath($privateKey)) {
-            throw new GitException('Path private key could not be resolved: '.$privateKey);
+            throw new GitException('Path private key could not be resolved: ' . $privateKey);
         }
 
         return $this->setEnvVar('GIT_SSH', $wrapperPath)
-                    ->setEnvVar('GIT_SSH_KEY', $privateKeyPath)
-                    ->setEnvVar('GIT_SSH_PORT', (int) $port);
+            ->setEnvVar('GIT_SSH_KEY', $privateKeyPath)
+            ->setEnvVar('GIT_SSH_PORT', (int)$port);
     }
 
     /**
@@ -404,7 +447,7 @@ class Git
      *
      * @param string $var
      *                        The name of the environment variable, e.g. "HOME", "GIT_SSH".
-     * @param mixed  $default
+     * @param mixed $default
      *                        The value returned if the environment variable is not set, defaults to
      *                        null.
      *
@@ -413,44 +456,5 @@ class Git
     public function getEnvVar($var, $default = null)
     {
         return isset($this->env[$var]) ? $this->env[$var] : $default;
-    }
-
-    /**
-     * Returns the associative array of environment variables that are defined
-     * only in the scope of the Git command.
-     *
-     * @return array
-     */
-    public function getEnvVars()
-    {
-        return $this->env;
-    }
-
-    /**
-     * @param int $timeout
-     *
-     * @return Git
-     */
-    public function setTimeout($timeout)
-    {
-        $this->timeout = $timeout;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTimeout()
-    {
-        return $this->timeout;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBin()
-    {
-        return $this->bin;
     }
 }
