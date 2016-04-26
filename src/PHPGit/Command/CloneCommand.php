@@ -26,10 +26,11 @@ class CloneCommand extends Command
      * - **shared** (_boolean_) Starts out without any object of its own
      * - **bare**   (_boolean_) Make a bare GIT repository
      * - **branch** (_string_)  Specify a branch
+     * - **depth**  (_integer_) Specify the clone depth
      *
      * @param string $repository The repository to clone from
-     * @param string $path       [optional] The name of a new directory to clone into
-     * @param array  $options    [optional] An array of options {@see CloneCommand::setDefaultOptions}
+     * @param string $path [optional] The name of a new directory to clone into
+     * @param array $options [optional] An array of options {@see CloneCommand::setDefaultOptions}
      *
      * @throws GitException
      *
@@ -41,8 +42,13 @@ class CloneCommand extends Command
         $builder = $this->git->getProcessBuilder()->add('clone')->add('--quiet');
 
         if ($options['branch']) {
-            $builder->add('--branch='.$options['branch']);
+            $builder->add('--branch=' . $options['branch']);
             unset($options['branch']);
+        }
+
+        if ($options['depth']) {
+            $builder->add('--depth=' . $options['depth']);
+            unset($options['depth']);
         }
 
         $this->addFlags($builder, $options);
@@ -68,12 +74,17 @@ class CloneCommand extends Command
     public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('shared', false)
-                 ->setDefault('bare', false)
-                 ->setDefault('branch', null)
-                 ->setDefault('mirror', null)
-                 ->setAllowedTypes('branch', array(
-                     'null',
-                     'string',
-                 ));
+            ->setDefault('bare', false)
+            ->setDefault('depth', null)
+            ->setDefault('branch', null)
+            ->setDefault('mirror', null)
+            ->setAllowedTypes('depth', array(
+                'null',
+                'integer',
+            ))
+            ->setAllowedTypes('branch', array(
+                'null',
+                'string',
+            ));
     }
 }
