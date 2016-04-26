@@ -15,8 +15,13 @@ class RemoteCommand extends Command
      *
      * @throws GitException
      */
-    public function tags($remote, $startWith = null)
+    public function tags($remote = null, $startWith = null)
     {
+        if ($remote === null) {
+            $config = $this->git->config(array('global' => false, 'system' => false));
+            $remote = $config['remote.origin.url'];
+        }
+
         $builder = $this->git
             ->getProcessBuilder()
             ->add('ls-remote')
@@ -52,8 +57,13 @@ class RemoteCommand extends Command
      * @return array
      * @throws GitException
      */
-    public function heads($remote, $startWith = null)
+    public function heads($remote = null, $startWith = null)
     {
+        if ($remote === null) {
+            $config = $this->git->config(array('global' => false, 'system' => false));
+            $remote = $config['remote.origin.url'];
+        }
+
         $builder = $this->git
             ->getProcessBuilder()
             ->add('ls-remote')
@@ -90,8 +100,13 @@ class RemoteCommand extends Command
      *
      * @throws GitException
      */
-    public function __invoke($remote, $startWith = null)
+    public function __invoke($remote = null, $startWith = null)
     {
+        if ($remote === null) {
+            $config = $this->git->config(array('global' => false, 'system' => false));
+            $remote = $config['remote.origin.url'];
+        }
+
         $builder = $this->git
             ->getProcessBuilder()
             ->add('ls-remote')
