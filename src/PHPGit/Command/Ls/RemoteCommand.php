@@ -47,7 +47,9 @@ class RemoteCommand extends Command
             $objects[$name] = $hash;
         }
 
-        return krsort($objects) ? $objects : array();
+        return uksort($objects, function ($a, $b) {
+            return version_compare($a, $b, '<');
+        }) ? $objects : array();
     }
 
     /**
@@ -89,7 +91,9 @@ class RemoteCommand extends Command
             $objects[$name] = $hash;
         }
 
-        return krsort($objects) ? $objects : array();
+        return uksort($objects, function ($a, $b) {
+            return version_compare($a, $b, '<');
+        }) ? $objects : array();
     }
 
     /**
@@ -133,11 +137,15 @@ class RemoteCommand extends Command
         }
 
         if (array_key_exists('tags', $objects)) {
-            krsort($objects['tags']);
+            uksort($objects['tags'], function ($a, $b) {
+                return version_compare($a, $b, '<');
+            });
         }
 
         if (array_key_exists('heads', $objects)) {
-            krsort($objects['heads']);
+            uksort($objects['heads'], function ($a, $b) {
+                return version_compare($a, $b, '<');
+            });
         }
 
         return ksort($objects) ? $objects : array();
