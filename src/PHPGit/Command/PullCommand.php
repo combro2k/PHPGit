@@ -34,6 +34,13 @@ class PullCommand extends Command
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()->add('pull');
 
+        if ($options['recursive']) {
+            $options['recurse-submodules'] = $options['recurse-submodules'] || $options['recursive'];
+            $options['recursive'] = false;
+        }
+
+        $this->addFlags($builder, $options);
+
         if ($repository) {
             $builder->add($repository);
 
@@ -52,5 +59,9 @@ class PullCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
+        $resolver
+            ->setDefault('quiet', true)
+            ->setDefault('recurse-submodules', null)
+            ->setDefault('recursive', null);
     }
 }

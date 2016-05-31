@@ -27,6 +27,7 @@ class CloneCommand extends Command
      * - **bare**   (_boolean_) Make a bare GIT repository
      * - **branch** (_string_)  Specify a branch
      * - **depth**  (_integer_) Specify the clone depth
+     * - **recursive** (_boolean_) Clone recursive submodules
      *
      * @param string $repository The repository to clone from
      * @param string $path [optional] The name of a new directory to clone into
@@ -39,7 +40,7 @@ class CloneCommand extends Command
     public function __invoke($repository, $path = null, array $options = array())
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()->add('clone')->add('--quiet');
+        $builder = $this->git->getProcessBuilder()->add('clone');
 
         if ($options['branch']) {
             $builder->add('--branch=' . $options['branch']);
@@ -73,11 +74,14 @@ class CloneCommand extends Command
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('shared', false)
+        $resolver
+            ->setDefault('quiet', true)
+            ->setDefault('shared', false)
             ->setDefault('bare', false)
             ->setDefault('depth', null)
             ->setDefault('branch', null)
             ->setDefault('mirror', null)
+            ->setDefault('recursive', null)
             ->setAllowedTypes('depth', array(
                 'null',
                 'integer',

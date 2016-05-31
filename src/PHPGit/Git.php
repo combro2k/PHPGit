@@ -101,6 +101,7 @@ use Symfony\Component\Process\ProcessBuilder;
  * @method stash()                                                  Save your local modifications to a new stash, and
  *         run git reset --hard to revert them
  * @method status($options = array())                               Show the working tree status
+ * @method submodule()                                              Show status of submodules
  * @method tag()                                                    Returns an array of tags
  * @method tree($branch = 'master', $path = '')                     List the contents of a tree object
  */
@@ -184,6 +185,9 @@ class Git
     /** @var Command\StatusCommand */
     public $status;
 
+    /** @var Command\SubmoduleCommand */
+    public $submodule;
+
     /** @var Command\TagCommand */
     public $tag;
 
@@ -201,6 +205,9 @@ class Git
 
     /** @var int */
     private $timeout = 7200;
+
+    /** @var mixed */
+    private $callback = null;
 
     /**
      * Initializes sub-commands.
@@ -232,6 +239,7 @@ class Git
         $this->show = new Command\ShowCommand($this);
         $this->stash = new Command\StashCommand($this);
         $this->status = new Command\StatusCommand($this);
+        $this->submodule = new Command\SubmoduleCommand($this);
         $this->tag = new Command\TagCommand($this);
         $this->tree = new Command\TreeCommand($this);
         $this->ls = new Command\LsCommand($this);
@@ -342,16 +350,16 @@ class Git
      *
      * @param Process $process The process to run
      *
-     * @throws Exception\GitException
-     *
      * @return mixed
+     *
+     * @throws GitException
      */
     public function run(Process $process)
     {
         $env = array_merge($process->getEnv(), $this->getEnvVars());
         $process->setEnv($env);
 
-        $process->run();
+        $process->run($this->getCallback());
 
         if (!$process->isSuccessful()) {
             throw new GitException($process->getErrorOutput(), $process->getExitCode(), $process->getCommandLine());
@@ -369,6 +377,25 @@ class Git
     public function getEnvVars()
     {
         return $this->env;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    /**
+     * @param mixed $callback
+     * @return Git
+     */
+    public function setCallback($callback)
+    {
+        $this->callback = $callback;
+
+        return $this;
     }
 
     /**
