@@ -32,9 +32,9 @@ class FetchCommand extends Command
      * - **prune**  (_boolean_) After fetching, remove any remote-tracking branches which no longer exist on the remote
      *
      * @param string $repository The "remote" repository that is the source of a fetch or pull operation
-     * @param string $refspec    The format of a <refspec> parameter is an optional plus +, followed by the source ref
+     * @param string $refspec The format of a <refspec> parameter is an optional plus +, followed by the source ref
      *                           <src>, followed by a colon :, followed by the destination ref <dst>
-     * @param array  $options    [optional] An array of options {@see FetchCommand::setDefaultOptions}
+     * @param array $options [optional] An array of options {@see FetchCommand::setDefaultOptions}
      *
      * @throws GitException
      *
@@ -100,12 +100,15 @@ class FetchCommand extends Command
      * .git/FETCH_HEAD
      * - **keep**   (_boolean_) Keep downloaded pack
      * - **prune**  (_boolean_) After fetching, remove any remote-tracking branches which no longer exist on the remote
+     * - **tags**  (_boolean_) Fetch all tags
+     * - **recurse-submodules** (_boolean_) Fetch all submodules
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('append', false)
-                 ->setDefault('keep', false)
-                 ->setDefault('tags', false)
-                 ->setDefault('prune', false);
+            ->setDefault('keep', false)
+            ->setDefault('tags', false)
+            ->setDefault('recurse-submodules', false)
+            ->setDefault('prune', false);
     }
 }
